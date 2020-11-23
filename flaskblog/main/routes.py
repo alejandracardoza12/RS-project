@@ -17,7 +17,7 @@ def home():
     session.permanent = True
     form = QueryForm()
     docids = request.args.getlist('docid')
-    if("searchquery" in session):
+    if("searchquery" in session and session["searchquery"]):
         avoid_words = search.get_avoid_words(docids, session["searchquery"])
     else:
         avoid_words = None 
@@ -28,7 +28,7 @@ def home():
         return render_template('home.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=[])
     result = {}
     selected_doctitles = []
-    if(session["searchquery"]):
+    if("searchquery" in session and session["searchquery"]):
         result = search.search_query(session["searchquery"], avoid_words)
     if(docids):
         selected_doctitles = search.get_titles(docids)
