@@ -17,7 +17,10 @@ def home():
     session.permanent = True
     form = QueryForm()
     docids = request.args.getlist('docid')
-    avoid_words = search.get_avoid_words(docids, session["searchquery"])
+    if("searchquery" in session):
+        avoid_words = search.get_avoid_words(docids, session["searchquery"])
+    else:
+        avoid_words = None 
     if form.validate_on_submit():
         session["searchquery"] = lemmatize_query(
             form.content.data) + " " + form.content.data
