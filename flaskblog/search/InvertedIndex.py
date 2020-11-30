@@ -1,6 +1,7 @@
 from flaskblog.search.Appearance import Appearance
 import re
 import copy
+from random import randrange
 
 
 class InvertedIndex:
