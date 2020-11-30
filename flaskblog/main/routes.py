@@ -24,7 +24,7 @@ def home():
     if form.validate_on_submit():
         session["searchquery"] = lemmatize_query(
             form.content.data) + " " + form.content.data
-        return redirect(url_for('main.second'), code=302)
+        return redirect(url_for('main.home'), code=302)
     result = {}
     selected_doctitles = []
     if("searchquery" in session and session["searchquery"]):
