@@ -52,6 +52,7 @@ def second():
             form.content.data) + " " + form.content.data
         return redirect(url_for('main.second'), code=302)
     result = {}
+    origdummy = ""
     selected_doctitles = []
     if("dummyquery" in session and session["dummyquery"]):
         result = search.search_dummy(session["dummyquery"], docids)
