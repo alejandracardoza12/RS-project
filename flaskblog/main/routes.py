@@ -22,16 +22,20 @@ def home():
     else:
         avoid_words = None 
     if form.validate_on_submit():
+        session["origquery"] = form.content.data
         session["searchquery"] = lemmatize_query(
             form.content.data) + " " + form.content.data
         return redirect(url_for('main.home'), code=302)
     result = {}
+    origquery = ""
     selected_doctitles = []
     if("searchquery" in session and session["searchquery"]):
         result = search.search_query(session["searchquery"], avoid_words)
+    if("origquery" in session and session["origquery"]):
+        origquery = session["origquery"]
     if(docids):
         selected_doctitles = search.get_titles(docids)
-    return render_template('home.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=selected_doctitles)
+    return render_template('home.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=selected_doctitles, origquery = origquery)
 
 @main.route("/secondversion", methods=['GET', 'POST'])
 def second():
@@ -43,6 +47,7 @@ def second():
     else:
         avoid_words = None
     if form.validate_on_submit():
+        session["origdummy"] = form.content.data
         session["dummyquery"] = lemmatize_query(
             form.content.data) + " " + form.content.data
         return redirect(url_for('main.second'), code=302)
@@ -50,18 +55,22 @@ def second():
     selected_doctitles = []
     if("dummyquery" in session and session["dummyquery"]):
         result = search.search_dummy(session["dummyquery"], docids)
+    if("origdummy" in session and session["origdummy"]):
+        origdummy = session["origdummy"]
     if(docids):
         selected_doctitles = search.get_titles(docids)
-    return render_template('second.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=selected_doctitles)
+    return render_template('second.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=selected_doctitles, origdummy = origdummy)
 
 
 @main.route("/reset", methods=['GET'])
 def reset():
+    session["origquery"] = ""
     session["searchquery"] = None
     return redirect(url_for('main.home'), code=302)
     
 @main.route("/resetsecond", methods=['GET'])
 def resetsecond():
+    session["origdummy"] = ""
     session["dummyquery"] = None
     return redirect(url_for('main.second'), code=302)
 
