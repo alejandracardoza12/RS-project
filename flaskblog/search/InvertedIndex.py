@@ -74,6 +74,22 @@ class InvertedIndex:
                         self.index[avoid_word][docid] * count
 
         return weights
+        
+    def scramble(self, freqdic, docids):
+        """
+        Returns the dictionary of terms with their correspondent Appearances. 
+        This is a very naive search since it will just split the terms and show
+        the documents where they appear.
+        """
+        for docid in docids:
+            if docid in freqdic:
+                del freqdic[docid]
+
+        weights = copy.deepcopy(freqdic)
+        for docid in freqdic:
+            weights[docid] -= 0.5 * randrange(20)
+
+        return weights
 
     def get_index(self):
         return self.index

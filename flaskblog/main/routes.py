@@ -24,8 +24,7 @@ def home():
     if form.validate_on_submit():
         session["searchquery"] = lemmatize_query(
             form.content.data) + " " + form.content.data
-        result = search.search_query(session["searchquery"], avoid_words)
-        return render_template('home.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=[])
+        return redirect(url_for('main.second'), code=302)
     result = {}
     selected_doctitles = []
     if("searchquery" in session and session["searchquery"]):
@@ -34,11 +33,37 @@ def home():
         selected_doctitles = search.get_titles(docids)
     return render_template('home.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=selected_doctitles)
 
+@main.route("/secondversion", methods=['GET', 'POST'])
+def second():
+    session.permanent = True
+    form = QueryForm()
+    docids = request.args.getlist('docid')
+    if("dummyquery" in session and session["dummyquery"]):
+        avoid_words = search.get_avoid_words(docids, session["dummyquery"])
+    else:
+        avoid_words = None
+    if form.validate_on_submit():
+        session["dummyquery"] = lemmatize_query(
+            form.content.data) + " " + form.content.data
+        return redirect(url_for('main.second'), code=302)
+    result = {}
+    selected_doctitles = []
+    if("dummyquery" in session and session["dummyquery"]):
+        result = search.search_dummy(session["dummyquery"], docids)
+    if(docids):
+        selected_doctitles = search.get_titles(docids)
+    return render_template('second.html', form=form, result=result, avoid_words=avoid_words, selected_doctitles=selected_doctitles)
+
 
 @main.route("/reset", methods=['GET'])
 def reset():
     session["searchquery"] = None
     return redirect(url_for('main.home'), code=302)
+    
+@main.route("/resetsecond", methods=['GET'])
+def resetsecond():
+    session["dummyquery"] = None
+    return redirect(url_for('main.second'), code=302)
 
 
 def wnpos(e): return ('a' if e[0].lower() == 'j' else e[0].lower(

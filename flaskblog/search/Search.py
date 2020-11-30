@@ -68,3 +68,24 @@ class Search:
                                             str(docfreqlist[1]), document['summary'], document['link']]
 
         return best_results
+
+    def search_dummy(self, search_term, docids=None):
+        result = self.index.lookup_query(search_term)
+
+        if(docids):
+            result = self.index.scramble(result, docids)
+
+        result_sorted = sorted(
+            result.items(), key=lambda item: item[1], reverse=True)
+
+        best_results = {}
+
+        # loop through words instead of documents?
+
+        for docfreqlist in result_sorted[:10]:
+            # Belgium: { docId: 1, frequency: 1}
+            document = self.db.get(docfreqlist[0])
+            best_results[docfreqlist[0]] = [document['title'],
+                                            str(docfreqlist[1]), document['summary'], document['link']]
+
+        return best_results
