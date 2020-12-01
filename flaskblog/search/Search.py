@@ -82,7 +82,7 @@ class Search:
         best_results = {}
 
         # loop through words instead of documents?
-        random_freqs = sort([0.5 * randrange(20) + 15 for i in range(5)])
+        random_freqs = sorted([0.5 * randrange(20) + 15 for i in range(5)], reverse=True)
         iteration = 0
         for docfreqlist in result_sorted[:5]:
             # Belgium: { docId: 1, frequency: 1}
