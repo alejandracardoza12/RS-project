@@ -82,11 +82,13 @@ class Search:
         best_results = {}
 
         # loop through words instead of documents?
-
+        random_freqs = [0.5 * randrange(20) + 15 for i in range(5)]
+        iteration = 0
         for docfreqlist in result_sorted[:5]:
             # Belgium: { docId: 1, frequency: 1}
             document = self.db.get(docfreqlist[0])
             best_results[docfreqlist[0]] = [document['title'],
-                                            str(0.5 * randrange(20) + 15), document['summary'], document['link']]
+                                            str(random_freqs[iteration]), document['summary'], document['link']]
+            iteration += 1
 
         return best_results
