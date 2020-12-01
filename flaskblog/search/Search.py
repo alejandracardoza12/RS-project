@@ -4,6 +4,7 @@ import pickle
 import sys
 from flaskblog.search import Appearance
 from collections import Counter
+from random import randrange
 
 sys.modules['Appearance'] = Appearance
 
@@ -86,6 +87,6 @@ class Search:
             # Belgium: { docId: 1, frequency: 1}
             document = self.db.get(docfreqlist[0])
             best_results[docfreqlist[0]] = [document['title'],
-                                            str(docfreqlist[1]), document['summary'], document['link']]
+                                            str(0.5 * randrange(20) + 15), document['summary'], document['link']]
 
         return best_results
