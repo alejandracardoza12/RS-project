@@ -88,7 +88,7 @@ class InvertedIndex:
 
         weights = copy.deepcopy(freqdic)
         for docid in freqdic:
-            weights[docid] -= 0.5 * randrange(20)
+            weights[docid] -= 0.5 * randrange(40)
 
         return weights
 

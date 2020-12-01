@@ -61,7 +61,7 @@ class Search:
 
         # loop through words instead of documents?
 
-        for docfreqlist in result_sorted[:10]:
+        for docfreqlist in result_sorted[:5]:
             # Belgium: { docId: 1, frequency: 1}
             document = self.db.get(docfreqlist[0])
             best_results[docfreqlist[0]] = [document['title'],
@@ -82,7 +82,7 @@ class Search:
 
         # loop through words instead of documents?
 
-        for docfreqlist in result_sorted[:10]:
+        for docfreqlist in result_sorted[:5]:
             # Belgium: { docId: 1, frequency: 1}
             document = self.db.get(docfreqlist[0])
             best_results[docfreqlist[0]] = [document['title'],
